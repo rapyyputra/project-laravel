@@ -6,6 +6,7 @@ use App\Models\Mahasiswa;
 use App\Models\ProgramStudi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class MahasiswaController extends Controller
 {
@@ -25,6 +26,24 @@ class MahasiswaController extends Controller
 
         return view('mahasiswa.index', compact('mahasiswa'));
     }
+
+    public function export()
+{
+    $mahasiswa = Mahasiswa::all();
+
+    // Contoh: export sebagai CSV
+    $csvHeader = "NRP,Nama,Program Studi\n";
+    $csvData = $mahasiswa->map(function ($m) {
+        return "{$m->nrp},{$m->nama},{$m->program_studi->nama}";
+    })->implode("\n");
+
+    $csvContent = $csvHeader . $csvData;
+
+    return Response::make($csvContent, 200, [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="mahasiswa.csv"',
+    ]);
+}
 
     public function create()
     {
