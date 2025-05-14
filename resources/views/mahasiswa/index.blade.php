@@ -4,24 +4,20 @@
 <div class="container">
     <h1>Data Mahasiswa</h1>
 
-    <!-- Tombol Tambah & Export -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary">Tambah Mahasiswa</a>
         <a href="{{ route('mahasiswa.export') }}" class="btn btn-success">Export Excel</a>
     </div>
 
-    <!-- Pesan Sukses -->
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Form Pencarian -->
     <form method="GET" action="{{ route('mahasiswa.index') }}" class="mb-3 d-flex gap-2">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau NRP..." class="form-control w-25">
         <button type="submit" class="btn btn-primary">Cari</button>
     </form>
 
-    <!-- Tabel Data Mahasiswa -->
     <table class="table table-bordered">
         <thead>
             <tr>

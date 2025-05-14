@@ -28,22 +28,22 @@ class MahasiswaController extends Controller
     }
 
     public function export()
-{
-    $mahasiswa = Mahasiswa::all();
+    {
+        $mahasiswa = Mahasiswa::with('programStudi')->get();
 
-    // Contoh: export sebagai CSV
-    $csvHeader = "NRP,Nama,Program Studi\n";
-    $csvData = $mahasiswa->map(function ($m) {
-        return "{$m->nrp},{$m->nama},{$m->program_studi->nama}";
-    })->implode("\n");
+        $csvHeader = "NRP,Nama,Program Studi\n";
+        $csvData = $mahasiswa->map(function ($m) {
+            $namaProdi = $m->programStudi && $m->programStudi->nama ? $m->programStudi->nama : '-';
+            return "{$m->nrp},{$m->nama},{$namaProdi}";
+        })->implode("\n");
 
-    $csvContent = $csvHeader . $csvData;
+        $csvContent = $csvHeader . $csvData;
 
-    return Response::make($csvContent, 200, [
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => 'attachment; filename="mahasiswa.csv"',
-    ]);
-}
+        return Response::make($csvContent, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="mahasiswa.csv"',
+        ]);
+    }
 
     public function create()
     {
@@ -63,13 +63,7 @@ class MahasiswaController extends Controller
             'angkatan' => 'required|integer|min:2000|max:' . date('Y'),
         ]);
 
-        Mahasiswa::create([
-            'user_id' => $request->user_id,
-            'nrp' => $request->nrp,
-            'nama' => $request->nama,
-            'program_studi_id' => $request->program_studi_id,
-            'angkatan' => $request->angkatan,
-        ]);
+        Mahasiswa::create($request->all());
 
         return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil ditambahkan.');
     }
@@ -94,14 +88,7 @@ class MahasiswaController extends Controller
         ]);
 
         $mahasiswa = Mahasiswa::findOrFail($id);
-
-        $mahasiswa->update([
-            'user_id' => $request->user_id,
-            'nrp' => $request->nrp,
-            'nama' => $request->nama,
-            'program_studi_id' => $request->program_studi_id,
-            'angkatan' => $request->angkatan,
-        ]);
+        $mahasiswa->update($request->all());
 
         return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil diupdate.');
     }
