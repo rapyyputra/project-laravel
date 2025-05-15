@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Data Mahasiswa</h1>
+    <h1>Biodata</h1>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary">Tambah Mahasiswa</a>

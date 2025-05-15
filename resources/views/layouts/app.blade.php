@@ -59,7 +59,7 @@
     <div class="sidebar col-md-3 col-lg-2">
         <h4 class="text-center">SIAKAD</h4>
         <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">Dashboard</a>
-        <a href="{{ route('mahasiswa.index') }}" class="{{ request()->is('mahasiswa') ? 'active' : '' }}">Mahasiswa</a>
+        <a href="{{ route('mahasiswa.index') }}" class="{{ request()->is('mahasiswa') ? 'active' : '' }}">Biodata</a>
         <a href="#">Jadwal Kuliah</a>
         <a href="#">Tugas</a>
         <a href="#">Presensi</a>

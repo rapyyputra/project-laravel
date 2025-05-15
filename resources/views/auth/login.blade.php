@@ -15,32 +15,28 @@
         }
 
         body {
-            height: 100vh;
-            background-color: #f2f2f2;
+            background-color: #F5F6FA;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
         }
 
-        .login-box {
+        .login-container {
             background-color: #ffffff;
-            padding: 50px 40px;
-            border-radius: 16px;
+            padding: 40px 30px;
+            border-radius: 18px;
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            max-width: 420px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .login-box h2 {
+        .login-container h2 {
             text-align: center;
-            margin-bottom: 35px;
-            font-size: 28px;
-            color: #333333;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #2C3E50;
         }
 
         .input-group {
@@ -50,20 +46,27 @@
 
         .input-group input {
             width: 100%;
-            padding: 14px 45px 14px 45px;
-            border: none;
-            border-radius: 10px;
-            background-color: #f0f0f0;
+            padding: 14px 45px;
+            border: 1px solid #dcdde1;
+            border-radius: 12px;
+            background-color: #f1f2f6;
             font-size: 14px;
-            color: #333;
+            color: #2C3E50;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #4b6cb7;
+            outline: none;
+            background-color: #ffffff;
         }
 
         .input-group i {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
             left: 15px;
-            color: #999;
+            transform: translateY(-50%);
+            color: #a4b0be;
         }
 
         .forgot {
@@ -73,7 +76,7 @@
         }
 
         .forgot a {
-            color: #666;
+            color: #4b6cb7;
             text-decoration: none;
         }
 
@@ -82,30 +85,47 @@
         }
 
         .btn-login {
+            width: 100%;
             padding: 14px;
-            background: linear-gradient(45deg, #4b6cb7, #182848);
+            background: linear-gradient(135deg, #4b6cb7, #182848);
             border: none;
+            border-radius: 12px;
             color: #fff;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 12px;
             cursor: pointer;
-            transition: 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.3s ease;
+        }
+
+        .btn-login:hover {
+            opacity: 0.95;
         }
 
         .btn-login i {
             margin-left: 8px;
         }
 
-        .btn-login:hover {
-            opacity: 0.9;
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #636e72;
         }
 
-        @media (max-width: 500px) {
-            .login-box {
+        .register-link a {
+            color: #4b6cb7;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
                 padding: 30px 20px;
             }
         }
@@ -113,8 +133,8 @@
 </head>
 <body>
 
-    <div class="login-box">
-        <h2>Sign in</h2>
+    <div class="login-container">
+        <h2>Welcome Back 👋</h2>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -122,7 +142,7 @@
             <!-- Email -->
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" placeholder="abc@email.com" required autofocus>
+                <input type="email" name="email" placeholder="you@example.com" required autofocus>
             </div>
 
             <!-- Password -->
@@ -131,17 +151,23 @@
                 <input type="password" name="password" placeholder="Your password" required>
             </div>
 
-            <!-- Forgot password -->
+            <!-- Forgot Password -->
             <div class="forgot">
                 <a href="{{ route('password.request') }}">Forgot Password?</a>
             </div>
 
-            <!-- Login Button -->
+            <!-- Submit Button -->
             <button type="submit" class="btn-login">
                 SIGN IN
                 <i class="fas fa-arrow-right"></i>
             </button>
         </form>
+
+        <!-- Register Link -->
+        <div class="register-link">
+            Don't have an account?
+            <a href="{{ route('register') }}">Register</a>
+        </div>
     </div>
 
 </body>
