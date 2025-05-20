@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,33 +20,43 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Tangani request login masuk.
+     * Tangani proses login.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Melakukan autentikasi dari LoginRequest (yang sudah validasi email & password)
+        // Autentikasi user dari form login (email & password)
         $request->authenticate();
 
-        // Regenerasi session agar aman
+        // Amankan session
         $request->session()->regenerate();
 
-        // Redirect ke halaman setelah login (default: /dashboard)
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // Ambil user yang baru login
+        $user = Auth::user();
+
+        // Redirect berdasarkan role
+        if ($user && $user->role === 'mahasiswa') {
+            return redirect()->route('dashboard.mahasiswa');
+        } elseif ($user && $user->role === 'dosen') {
+            return redirect()->route('dashboard.dosen');
+        }
+
+        // Jika role tidak valid atau tidak ada
+        Auth::logout();
+        return redirect()->route('login')->withErrors([
+            'email' => 'Role tidak dikenali atau belum diatur.',
+        ]);
     }
 
     /**
-     * Logout pengguna dari sesi yang terautentikasi.
+     * Logout user dari sesi.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // Logout user dari guard default (web)
         Auth::guard('web')->logout();
 
-        // Invalidasi sesi & token agar aman
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Redirect ke halaman login atau beranda
         return redirect('/');
     }
 }

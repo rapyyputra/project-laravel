@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Daftar Akun - SIAKAD</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - SIAKAD</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a2e5e6fa4c.js" crossorigin="anonymous"></script>
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
@@ -20,44 +18,48 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            margin: 0;
         }
 
         .register-container {
             background-color: #ffffff;
             padding: 40px 30px;
             border-radius: 18px;
-            width: 100%;
             max-width: 420px;
+            width: 100%;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .register-container h2 {
+        h2 {
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 600;
             color: #2c3e50;
+            margin-bottom: 30px;
         }
 
         .input-group {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .input-group input {
+        .input-group input,
+        .input-group select {
             width: 100%;
             padding: 14px 45px;
             border: 1px solid #dcdde1;
             border-radius: 12px;
             background-color: #f1f2f6;
             font-size: 14px;
-            color: #2C3E50;
+            color: #2c3e50;
             transition: 0.3s;
+            appearance: none;
         }
 
-        .input-group input:focus {
+        .input-group input:focus,
+        .input-group select:focus {
             border-color: #4b6cb7;
-            background-color: #ffffff;
+            background-color: #fff;
             outline: none;
         }
 
@@ -79,10 +81,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s ease;
+            transition: 0.3s;
         }
 
         .btn-register:hover {
@@ -91,8 +90,8 @@
 
         .login-link {
             text-align: center;
-            margin-top: 20px;
             font-size: 14px;
+            margin-top: 20px;
             color: #636e72;
         }
 
@@ -115,54 +114,65 @@
 <body>
 
     <div class="register-container">
-        <h2>Create Account 📝</h2>
+        <h2>Daftar Akun 📝</h2>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            <!-- Role -->
+<div class="input-group">
+    <i class="fas fa-user-tag"></i>
+    <select name="role" required style="
+        width: 100%;
+        padding: 14px 45px;
+        border: 1px solid #dcdde1;
+        border-radius: 12px;
+        background-color: #f1f2f6;
+        font-size: 14px;
+        color: #2C3E50;
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg fill=\'%236b7280\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px 16px;
+    ">
+        <option disabled selected>Pilih Role</option>
+        <option value="mahasiswa">Mahasiswa</option>
+        <option value="dosen">Dosen</option>
+    </select>
+</div>
+
+
             <!-- Name -->
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="name" placeholder="Full Name" value="{{ old('name') }}" required autofocus>
-                @error('name')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
+                <input type="text" name="name" placeholder="Nama Lengkap" required>
             </div>
 
             <!-- Email -->
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" placeholder="you@example.com" value="{{ old('email') }}" required>
-                @error('email')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
+                <input type="email" name="email" placeholder="Email" required>
             </div>
 
             <!-- Password -->
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="Create Password" required>
-                @error('password')
-                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                @enderror
+                <input type="password" name="password" placeholder="Password" required>
             </div>
 
             <!-- Confirm Password -->
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                <input type="password" name="password_confirmation" placeholder="Konfirmasi Password" required>
             </div>
 
-            <!-- Register Button -->
-            <button type="submit" class="btn-register">
-                REGISTER
-            </button>
+            <!-- Submit -->
+            <button type="submit" class="btn-register">Daftar</button>
         </form>
 
-        <!-- Login Link -->
         <div class="login-link">
-            Already have an account?
-            <a href="{{ route('login') }}">Login</a>
+            Sudah punya akun? <a href="{{ route('login') }}">Login di sini</a>
         </div>
     </div>
 
