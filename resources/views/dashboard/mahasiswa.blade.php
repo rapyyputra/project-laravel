@@ -2,126 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Mahasiswa</title>
+    <title>Dashboard Mahasiswa - SIAKAD</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://kit.fontawesome.com/a2e5e6fa4c.js" crossorigin="anonymous"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-gradient {
+            background: linear-gradient(180deg, #ffffff 0%, #f1f5ff 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+        .chart-gradient {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="gradient-bg min-h-screen font-sans">
 
 <div class="flex h-screen">
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg p-6 flex flex-col">
-        <h1 class="text-2xl font-bold text-blue-700 mb-10">📘 SIAKAD</h1>
-        <nav class="flex-1 space-y-4 text-gray-700">
-            <a href="#" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-blue-100">
-                <i class="fas fa-home"></i> Dashboard
+    <aside class="w-64 sidebar-gradient shadow-xl flex flex-col border-r border-blue-100">
+        <div class="px-6 py-6">
+            <h2 class="text-3xl font-bold gradient-text">SIAKAD</h2>
+            <p class="text-sm text-blue-400 mt-1">Sistem Akademik</p>
+        </div>
+        <nav class="flex-1 px-4 space-y-1">
+            <a href="{{ route('dashboard.mahasiswa') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">
+                Dashboard
             </a>
-            <a href="{{ route('frs.index') }}" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-blue-100">
-                <i class="fas fa-file-alt"></i> FRS
+            <a href="{{ route('frs.index') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">
+                FRS
             </a>
-            <a href="{{ route('jadwal.mahasiswa') }}" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-blue-100">
-                <i class="fas fa-calendar-alt"></i> Jadwal Kuliah
+            <a href="{{ route('jadwal.mahasiswa') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">
+                Jadwal Kuliah
             </a>
-            <a href="{{ route('nilai.mahasiswa') }}" class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-blue-100">
-                <i class="fas fa-graduation-cap"></i> Nilai
+            <a href="{{ route('nilai.mahasiswa') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">
+                Nilai
             </a>
         </nav>
-        <form method="POST" action="{{ route('logout') }}" class="pt-10">
-            @csrf
-            <button class="w-full text-left text-red-500 hover:text-red-700 flex items-center gap-2">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </form>
+        <div class="p-4">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full py-3 text-red-600 hover:text-white hover:bg-red-500 rounded-lg font-semibold border border-red-400 hover:border-red-500 transition">
+                    Logout
+                </button>
+            </form>
+        </div>
     </aside>
 
-    <!-- Main -->
-    <main class="flex-1 p-8 overflow-auto">
+    <!-- Main Content -->
+    <div class="flex-1 p-8 overflow-y-auto">
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-800">Selamat Datang, {{ auth()->user()->name }}</h2>
-                <p class="text-gray-500 mt-1">(Mahasiswa)</p>
-            </div>
-            <div class="flex items-center gap-4">
-                <input type="text" placeholder="Cari..." class="px-3 py-2 rounded-lg border border-gray-300 w-48">
-                <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg font-semibold">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </div>
-            </div>
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-white mb-2">Selamat Datang, {{ auth()->user()->name }}</h1>
+            <p class="text-blue-100 text-lg">(Mahasiswa)</p>
         </div>
 
         <!-- Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-                <p class="text-sm text-gray-500">Semester Aktif</p>
-                <h3 class="text-xl font-bold mt-2">Ganjil 2024</h3>
+            <div class="gradient-card shadow-xl rounded-2xl p-6 card-hover border border-blue-100">
+                <h2 class="text-gray-600 mb-2 font-medium">Semester Aktif</h2>
+                <p class="text-3xl font-bold gradient-text">Ganjil 2024</p>
+                <p class="text-sm text-green-500 mt-2">Tersimpan otomatis</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-                <p class="text-sm text-gray-500">Total SKS Diambil</p>
-                <h3 class="text-xl font-bold mt-2">22 SKS</h3>
+            <div class="gradient-card shadow-xl rounded-2xl p-6 card-hover border border-blue-100">
+                <h2 class="text-gray-600 mb-2 font-medium">Total SKS</h2>
+                <p class="text-3xl font-bold gradient-text">22 SKS</p>
+                <p class="text-sm text-green-500 mt-2">Semua mata kuliah aktif</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-                <p class="text-sm text-gray-500">IPK</p>
-                <h3 class="text-xl font-bold text-green-600 mt-2">3.75</h3>
+            <div class="gradient-card shadow-xl rounded-2xl p-6 card-hover border border-blue-100">
+                <h2 class="text-gray-600 mb-2 font-medium">IPK</h2>
+                <p class="text-3xl font-bold gradient-text">3.75</p>
+                <p class="text-sm text-blue-400 mt-2">Diperbarui semester lalu</p>
             </div>
         </div>
 
         <!-- Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-xl shadow">
-                <h4 class="text-lg font-semibold mb-4">Aktivitas Semester</h4>
-                <canvas id="barChart"></canvas>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="gradient-card shadow-xl rounded-2xl p-6 card-hover border border-blue-100">
+                <h3 class="text-xl font-semibold mb-4 gradient-text">Aktivitas Semester</h3>
+                <div class="chart-gradient h-48 rounded-xl flex items-center justify-center border border-blue-200">
+                    <p class="text-blue-500">[Chart aktivitas tugas - Gunakan Chart.js]</p>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow flex flex-col items-center justify-center">
-                <h4 class="text-lg font-semibold mb-4">Progress Kelulusan</h4>
-                <div class="relative w-40 h-40">
-                    <canvas id="circleChart" width="160" height="160"></canvas>
-                    <div class="absolute inset-0 flex items-center justify-center text-xl font-bold text-blue-600">
-                        75%
-                    </div>
+            <div class="gradient-card shadow-xl rounded-2xl p-6 card-hover border border-blue-100">
+                <h3 class="text-xl font-semibold mb-4 gradient-text">Progress Kelulusan</h3>
+                <div class="chart-gradient h-48 rounded-xl flex items-center justify-center border border-blue-200">
+                    <p class="text-blue-500">[Donut chart kelulusan - Gunakan Chart.js]</p>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </div>
-
-<!-- Chart Scripts -->
-<script>
-    new Chart(document.getElementById('barChart').getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
-            datasets: [{
-                label: 'Jumlah Tugas',
-                data: [3, 5, 2, 4, 6, 7, 5, 4, 3, 6, 2, 1],
-                backgroundColor: '#4b6cb7'
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-
-    new Chart(document.getElementById('circleChart').getContext('2d'), {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [75, 25],
-                backgroundColor: ['#4b6cb7', '#e4e4e7'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            cutout: '70%',
-            plugins: { legend: { display: false } }
-        }
-    });
-</script>
 
 </body>
 </html>

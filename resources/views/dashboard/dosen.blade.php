@@ -17,9 +17,9 @@
         </div>
         <nav class="flex-1 px-4">
             <a href="{{ route('dashboard.dosen') }}" class="block py-2.5 px-4 rounded transition hover:bg-blue-100 text-gray-700 font-medium">Dashboard</a>
-            <a href="{{ route('frs.acc') }}" class="block py-2.5 px-4 rounded transition hover:bg-blue-100 text-gray-700 font-medium">ACC FRS</a>
+            <a href="{{ route('frs.acc') }}" class="block py-2.5 px-4 rounded transition hover:bg-blue-100 text-gray-700 font-medium">Acc Frs</a>
             <a href="{{ route('jadwal.dosen') }}" class="block py-2.5 px-4 rounded transition hover:bg-blue-100 text-gray-700 font-medium">Jadwal Mengajar</a>
-            <a href="{{ route('nilai.input') }}" class="block py-2.5 px-4 rounded transition hover:bg-blue-100 text-gray-700 font-medium">Isi Nilai</a>
+            <a href="{{ route('nilai.input') }}" class="block py-2.5 px-4 rounded transition hover:bg-blue-100 text-gray-700 font-medium">Isi </a>
         </nav>
         <form method="POST" action="{{ route('logout') }}" class="p-4">
             @csrf
