@@ -3,24 +3,36 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     *
+     * @return void
      */
-    public function register(): void
-    {
-        //
+    public function redirectTo()
+{
+    $role = auth()->user()->role;
+
+    switch ($role) {
+        case 'dosen':
+            return '/dashboard/dosen';
+        case 'mahasiswa':
+            return '/dashboard/mahasiswa';
+        default:
+            return '/dashboard';
     }
+}
+
 
     /**
      * Bootstrap any application services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
-        // Untuk menghindari error saat menggunakan string panjang di migration
-        Schema::defaultStringLength(191);
+        //
     }
 }

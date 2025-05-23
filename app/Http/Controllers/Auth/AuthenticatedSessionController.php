@@ -11,45 +11,38 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Tampilkan halaman login.
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Tangani proses login.
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Autentikasi user dari form login (email & password)
         $request->authenticate();
-
-        // Amankan session
         $request->session()->regenerate();
 
-        // Ambil user yang baru login
         $user = Auth::user();
 
-        // Redirect berdasarkan role
-        if ($user && $user->role === 'mahasiswa') {
-            return redirect()->route('dashboard.mahasiswa');
-        } elseif ($user && $user->role === 'dosen') {
-            return redirect()->route('dashboard.dosen');
+        if ($user && isset($user->role)) {
+            switch ($user->role) {
+                case 'dosen':
+                    return redirect()->route('dashboard.dosen');
+                case 'mahasiswa':
+                    return redirect()->route('dashboard.mahasiswa');
+                default:
+                    Auth::logout();
+                    return redirect()->route('login')->withErrors([
+                        'email' => 'Role pengguna tidak dikenali.',
+                    ]);
+            }
         }
 
-        // Jika role tidak valid atau tidak ada
         Auth::logout();
         return redirect()->route('login')->withErrors([
-            'email' => 'Role tidak dikenali atau belum diatur.',
+            'email' => 'Gagal login. Silakan coba lagi.',
         ]);
     }
 
-    /**
-     * Logout user dari sesi.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
