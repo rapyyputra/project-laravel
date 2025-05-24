@@ -47,7 +47,7 @@
       <a href="{{ route('dashboard.dosen') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">Dashboard</a>
       <a href="{{ route('frs.acc') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">Acc Frs</a>
       <a href="{{ route('jadwal.dosen') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">Jadwal Mengajar</a>
-      <a href="{{ route('nilai.input') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">Isi</a>
+      <a href="{{ route('nilai.input') }}" class="block py-3 px-4 rounded-lg transition-all duration-200 hover:bg-blue-100 text-gray-700 font-medium">Isi Nilai</a>
     </nav>
     <div class="p-4">
       <form method="POST" action="{{ route('logout') }}">

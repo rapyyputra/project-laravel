@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Rencana Studi (FRS)</title>
+    <title>Status FRS - Formulir Rencana Studi</title>
     <style>
         * {
             margin: 0;
@@ -46,7 +46,7 @@
             opacity: 0.9;
         }
 
-        .form-container {
+        .status-container {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -55,8 +55,72 @@
                 0 0 0 1px rgba(255, 255, 255, 0.2);
             padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
         }
 
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        /* Status Overview */
+        .status-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .status-rejected {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        /* Table Styling */
         .table-container {
             overflow-x: auto;
             border-radius: 15px;
@@ -112,58 +176,41 @@
             color: #1e40af;
         }
 
-        /* Styled Checkbox */
-        .checkbox-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Status Badges */
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .custom-checkbox {
-            position: relative;
-            display: inline-block;
+        .badge-pending {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #92400e;
         }
 
-        .custom-checkbox input[type="checkbox"] {
-            opacity: 0;
-            position: absolute;
-            z-index: -1;
+        .badge-approved {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            color: #065f46;
         }
 
-        .checkmark {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #d1d5db;
-            position: relative;
+        .badge-rejected {
+            background: linear-gradient(135deg, #fca5a5 0%, #ef4444 100%);
+            color: #991b1b;
         }
 
-        .custom-checkbox input[type="checkbox"]:checked + .checkmark {
-            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-            border-color: #1e40af;
-            transform: scale(1.1);
+        /* Notes Section */
+        .notes-column {
+            max-width: 200px;
+            word-wrap: break-word;
         }
 
-        .checkmark::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 6px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform-origin: center;
-            transition: transform 0.2s ease;
-        }
-
-        .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
-            transform: translate(-50%, -60%) rotate(45deg) scale(1);
+        .note-text {
+            font-style: italic;
+            color: #6b7280;
         }
 
         /* Button Styling */
@@ -185,23 +232,8 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -226,35 +258,13 @@
             box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
         }
 
-        /* Summary Box */
-        .summary-box {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 2px solid #93c5fd;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .summary-box h3 {
-            color: #1e40af;
-            margin-bottom: 0.5rem;
-            font-size: 1.25rem;
-        }
-
-        .summary-text {
-            color: #1e40af;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
 
-            .form-container {
+            .status-container {
                 padding: 1rem;
                 border-radius: 15px;
             }
@@ -263,15 +273,18 @@
                 font-size: 2rem;
             }
 
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
             thead th,
             tbody td {
                 padding: 0.75rem;
                 font-size: 0.85rem;
             }
 
-            .btn {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
+            .notes-column {
+                max-width: 150px;
             }
         }
 
@@ -287,184 +300,362 @@
             }
         }
 
-        .form-container {
+        .status-container {
             animation: fadeInUp 0.8s ease-out;
         }
 
-        .table-container {
+        .info-cards {
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
-        .button-container {
+        .table-container {
             animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .button-container {
+            animation: fadeInUp 0.8s ease-out 0.6s both;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2>Formulir Rencana Studi</h2>
-            <p>Silakan pilih mata kuliah yang ingin Anda ambil untuk semester ini</p>
+            <h2>Status Formulir Rencana Studi</h2>
+            <p>Status persetujuan FRS Anda oleh Dosen Pembimbing Akademik</p>
         </div>
         
-        <div class="form-container">
-            <form action="#" method="POST">
-                <div class="summary-box">
-                    <h3>📊 Ringkasan Pemilihan</h3>
-                    <div class="summary-text">
-                        Total SKS Terpilih: <span id="totalSKS">0</span> SKS
-                    </div>
+        <div class="status-container">
+            <!-- Info Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>Semester</h3>
+                    <div class="value">Ganjil 2024/2025</div>
                 </div>
+                <div class="info-card">
+                    <h3>Total SKS</h3>
+                    <div class="value">20 SKS</div>
+                </div>
+                <div class="info-card">
+                    <h3>Tanggal Pengajuan</h3>
+                    <div class="value">24 Mei 2025</div>
+                </div>
+                <div class="info-card">
+                    <h3>Status Keseluruhan</h3>
+                    <div class="value" style="color: #f59e0b;">Pending</div>
+                </div>
+            </div>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Kode MK</th>
-                                <th>Mata Kuliah</th>
-                                <th>SKS</th>
-                                <th>Pilih</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>IF201</td>
-                                <td>Pemrograman Web</td>
-                                <td>3</td>
-                                <td class="checkbox-wrapper">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="mk[]" value="IF201" data-sks="3">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>IF202</td>
-                                <td>Basis Data</td>
-                                <td>3</td>
-                                <td class="checkbox-wrapper">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="mk[]" value="IF202" data-sks="3">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>IF203</td>
-                                <td>Algoritma dan Struktur Data</td>
-                                <td>4</td>
-                                <td class="checkbox-wrapper">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="mk[]" value="IF203" data-sks="4">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>IF204</td>
-                                <td>Sistem Operasi</td>
-                                <td>3</td>
-                                <td class="checkbox-wrapper">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="mk[]" value="IF204" data-sks="3">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>IF205</td>
-                                <td>Jaringan Komputer</td>
-                                <td>3</td>
-                                <td class="checkbox-wrapper">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="mk[]" value="IF205" data-sks="3">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>IF206</td>
-                                <td>Rekayasa Perangkat Lunak</td>
-                                <td>4</td>
-                                <td class="checkbox-wrapper">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="mk[]" value="IF206" data-sks="4">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Status Overview -->
+            <div class="status-overview">
+                <div class="status-item status-approved">
+                    <div style="font-size: 1.5rem;">4</div>
+                    <div>Mata Kuliah Disetujui</div>
                 </div>
+                <div class="status-item status-pending">
+                    <div style="font-size: 1.5rem;">2</div>
+                    <div>Menunggu Persetujuan</div>
+                </div>
+                <div class="status-item status-rejected">
+                    <div style="font-size: 1.5rem;">0</div>
+                    <div>Mata Kuliah Ditolak</div>
+                </div>
+            </div>
 
-                <div class="button-container">
-                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Pilihan</button>
-                    <button type="submit" class="btn btn-primary">💾 Simpan FRS</button>
-                </div>
-            </form>
+            <!-- Table with FRS Status -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kode MK</th>
+                            <th>Mata Kuliah</th>
+                            <th>SKS</th>
+                            <th>Status</th>
+                            <th>Tanggal Review</th>
+                            <th>Catatan Dosen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IF201</td>
+                            <td>Pemrograman Web</td>
+                            <td>3</td>
+                            <td>
+                                <span class="status-badge badge-approved">✓ Disetujui</span>
+                            </td>
+                            <td>23 Mei 2025</td>
+                            <td class="notes-column">
+                                <span class="note-text">Mata kuliah sesuai dengan kurikulum</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IF202</td>
+                            <td>Basis Data</td>
+                            <td>3</td>
+                            <td>
+                                <span class="status-badge badge-approved">✓ Disetujui</span>
+                            </td>
+                            <td>23 Mei 2025</td>
+                            <td class="notes-column">
+                                <span class="note-text">Prasyarat terpenuhi</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IF203</td>
+                            <td>Algoritma dan Struktur Data</td>
+                            <td>4</td>
+                            <td>
+                                <span class="status-badge badge-pending">⏳ Pending</span>
+                            </td>
+                            <td>-</td>
+                            <td class="notes-column">
+                                <span class="note-text">Sedang dalam review</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IF204</td>
+                            <td>Sistem Operasi</td>
+                            <td>3</td>
+                            <td>
+                                <span class="status-badge badge-approved">✓ Disetujui</span>
+                            </td>
+                            <td>24 Mei 2025</td>
+                            <td class="notes-column">
+                                <span class="note-text">Mata kuliah wajib semester ini</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IF205</td>
+                            <td>Jaringan Komputer</td>
+                            <td>3</td>
+                            <td>
+                                <span class="status-badge badge-approved">✓ Disetujui</span>
+                            </td>
+                            <td>24 Mei 2025</td>
+                            <td class="notes-column">
+                                <span class="note-text">Sesuai dengan rencana studi</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>IF206</td>
+                            <td>Rekayasa Perangkat Lunak</td>
+                            <td>4</td>
+                            <td>
+                                <span class="status-badge badge-pending">⏳ Pending</span>
+                            </td>
+                            <td>-</td>
+                            <td class="notes-column">
+                                <span class="note-text">Menunggu konfirmasi ketersediaan kelas</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-container">
+                <a href="#" class="btn btn-secondary">📋 Edit FRS</a>
+                <button type="button" class="btn btn-primary" onclick="printFRS()">🖨 Cetak FRS</button>
+                <button type="button" class="btn btn-primary" onclick="refreshStatus()">🔄 Refresh Status</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Function to calculate total SKS
-        function updateTotalSKS() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            let totalSKS = 0;
+        // Function to refresh status
+        function refreshStatus() {
+            // Simulate loading
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Memuat...';
+            btn.disabled = true;
             
-            checkboxes.forEach(checkbox => {
-                totalSKS += parseInt(checkbox.getAttribute('data-sks'));
-            });
-            
-            document.getElementById('totalSKS').textContent = totalSKS;
-        }
-
-        // Add event listeners to all checkboxes
-        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', updateTotalSKS);
-        });
-
-        // Reset form function
-        function resetForm() {
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            updateTotalSKS();
-        }
-
-        // Form submission handler
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const selectedCourses = [];
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-                const row = checkbox.closest('tr');
-                const kode = row.cells[0].textContent;
-                const nama = row.cells[1].textContent;
-                const sks = row.cells[2].textContent;
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
                 
-                selectedCourses.push({
-                    kode: kode,
-                    nama: nama,
-                    sks: sks
-                });
-            });
+                // Simulate status update notification
+                showNotification('Status FRS telah diperbarui!', 'success');
+                
+                // In real implementation, this would fetch new data from server
+                // and update the table accordingly
+            }, 2000);
+        }
 
-            if (selectedCourses.length === 0) {
-                alert('Silakan pilih setidaknya satu mata kuliah!');
-                return;
-            }
-
-            let message = 'FRS berhasil disimpan!\n\nMata kuliah yang dipilih:\n';
-            selectedCourses.forEach(course => {
-                message += `• ${course.kode} - ${course.nama} (${course.sks} SKS)\n`;
-            });
-            message += `\nTotal SKS: ${document.getElementById('totalSKS').textContent} SKS`;
+        // Function to print FRS
+        function printFRS() {
+            // Create a printable version
+            const printWindow = window.open('', '', 'height=600,width=800');
+            const currentDate = new Date().toLocaleDateString('id-ID');
             
-            alert(message);
-        });
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>FRS - Formulir Rencana Studi</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .info { margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+                        th { background-color: #f0f0f0; }
+                        .signature { margin-top: 50px; display: flex; justify-content: space-between; }
+                        .signature div { text-align: center; width: 200px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h2>FORMULIR RENCANA STUDI (FRS)</h2>
+                        <p>Semester Ganjil 2024/2025</p>
+                    </div>
+                    <div class="info">
+                        <p><strong>Tanggal Cetak:</strong> ${currentDate}</p>
+                        <p><strong>Total SKS:</strong> 20 SKS</p>
+                        <p><strong>Status:</strong> Sebagian disetujui, sebagian menunggu persetujuan</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode MK</th>
+                                <th>Mata Kuliah</th>
+                                <th>SKS</th>
+                                <th>Status</th>
+                                <th>Catatan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>IF201</td>
+                                <td>Pemrograman Web</td>
+                                <td>3</td>
+                                <td>Disetujui</td>
+                                <td>Mata kuliah sesuai dengan kurikulum</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>IF202</td>
+                                <td>Basis Data</td>
+                                <td>3</td>
+                                <td>Disetujui</td>
+                                <td>Prasyarat terpenuhi</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>IF203</td>
+                                <td>Algoritma dan Struktur Data</td>
+                                <td>4</td>
+                                <td>Pending</td>
+                                <td>Sedang dalam review</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>IF204</td>
+                                <td>Sistem Operasi</td>
+                                <td>3</td>
+                                <td>Disetujui</td>
+                                <td>Mata kuliah wajib semester ini</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>IF205</td>
+                                <td>Jaringan Komputer</td>
+                                <td>3</td>
+                                <td>Disetujui</td>
+                                <td>Sesuai dengan rencana studi</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>IF206</td>
+                                <td>Rekayasa Perangkat Lunak</td>
+                                <td>4</td>
+                                <td>Pending</td>
+                                <td>Menunggu konfirmasi ketersediaan kelas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="signature">
+                        <div>
+                            <p>Mahasiswa</p>
+                            <br><br><br>
+                            <p>(_)</p>
+                        </div>
+                        <div>
+                            <p>Dosen Pembimbing Akademik</p>
+                            <br><br><br>
+                            <p>(_)</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.print();
+        }
 
-        // Initialize total SKS on page load
-        updateTotalSKS();
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideInRight 0.5s ease;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #10b981 0%, #059669 100%);' : 
+                  type === 'error' ? 'background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);' :
+                  'background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);'}
+            `;
+            notification.textContent = message;
+            
+            // Add slide animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.5s ease reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
+        // Simulate real-time status updates
+        function simulateStatusUpdates() {
+            // This would typically be done via WebSocket or periodic AJAX calls
+            setInterval(() => {
+                // In real implementation, you'd fetch actual data from your backend
+                console.log('Checking for status updates...');
+            }, 30000); // Check every 30 seconds
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome notification
+            setTimeout(() => {
+                showNotification('FRS status dimuat. Status akan diperbarui secara otomatis.', 'info');
+            }, 1000);
+            
+            // Start status update simulation
+            simulateStatusUpdates();
+        });
     </script>
 </body>
 </html>
